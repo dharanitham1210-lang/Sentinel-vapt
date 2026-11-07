@@ -1,0 +1,24 @@
+{
+  "alerts": [
+    {
+      "alert": "Missing Anti-CSRF Tokens (sample import)",
+      "risk": "Medium",
+      "url": "http://127.0.0.1:3000/#/profile",
+      "param": "",
+      "evidence": "Form found without CSRF token (SAMPLE file — not a live scan result).",
+      "solution": "Add anti-CSRF tokens to all state-changing forms.",
+      "cwesid": "352",
+      "reference": "https://owasp.org/www-community/attacks/csrf"
+    },
+    {
+      "alert": "Cross Domain Misconfiguration (sample import)",
+      "risk": "Low",
+      "url": "http://127.0.0.1:3000/",
+      "param": "",
+      "evidence": "Access-Control-Allow-Origin: * (SAMPLE file — not a live scan result).",
+      "solution": "Restrict CORS to trusted origins.",
+      "cwesid": "942",
+      "reference": ""
+    }
+  ]
+}

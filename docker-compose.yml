@@ -1,0 +1,79 @@
+version: "3.8"
+
+services:
+  # -------------------------------------------------------------
+  # SentinelVAPT Core Platform Services
+  # -------------------------------------------------------------
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sentinel-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - VULNPILOT_DB=/app/vulnpilot.db
+      - LLM_API_KEY=${LLM_API_KEY:-}
+      - LLM_BASE_URL=${LLM_BASE_URL:-https://api.openai.com/v1}
+      - LLM_MODEL=${LLM_MODEL:-gpt-4o-mini}
+      - ZAP_API_URL=http://lab-zap:8090
+      - ZAP_API_KEY=${ZAP_API_KEY:-}
+    volumes:
+      - ./backend/reports:/app/reports
+      - ./backend/uploads:/app/uploads
+      - ./backend/artifacts:/app/artifacts
+      - ./backend/vulnpilot.db:/app/vulnpilot.db
+    networks:
+      sentinel-internal:
+      sentinel-lab-net:
+        ipv4_address: 172.28.0.10
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: sentinel-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    networks:
+      - sentinel-internal
+
+  # -------------------------------------------------------------
+  # Isolated Lab Targets (Internal Subnet 172.28.0.0/16)
+  # Restricted to authorized local testing only. Public egress blocked.
+  # -------------------------------------------------------------
+  lab-juice-shop:
+    image: bkimminich/juice-shop:v16.0.0
+    container_name: sentinel-lab-juice-shop
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    networks:
+      sentinel-lab-net:
+        ipv4_address: 172.28.0.20
+
+  lab-dvwa:
+    image: vulnerables/web-dvwa:latest
+    container_name: sentinel-lab-dvwa
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      - PHP_OPTIONS="-d allow_url_include=1"
+    networks:
+      sentinel-lab-net:
+        ipv4_address: 172.28.0.21
+
+networks:
+  sentinel-internal:
+    driver: bridge
+  sentinel-lab-net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
+          gateway: 172.28.0.1
+

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SAMPLE import file. The findings below are illustrative only, not a real scan. -->
+<nmaprun scanner="nmap" args="nmap -sV --top-ports 100 -oX - 127.0.0.1">
+  <host>
+    <address addr="127.0.0.1" addrtype="ipv4"/>
+    <ports>
+      <port protocol="tcp" portid="80">
+        <state state="open" reason="syn-ack"/>
+        <service name="http" product="Apache httpd" version="2.4.49"/>
+      </port>
+      <port protocol="tcp" portid="3000">
+        <state state="open" reason="syn-ack"/>
+        <service name="http" product="Node.js Express" version="4.17.0"/>
+      </port>
+    </ports>
+  </host>
+</nmaprun>

@@ -1,0 +1,43 @@
+# Render Blueprint: SentinelVAPT Backend (Docker Web Service)
+# Connects with Neon PostgreSQL and Vercel Frontend.
+services:
+  - type: web
+    name: sentinelvapt-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: CLOUD_MODE
+        value: "true"
+      - key: STORAGE_BACKEND
+        value: "database"
+      # REQUIRED (Production): Neon PostgreSQL connection string (URI with sslmode=require)
+      - key: DATABASE_URL
+        sync: false
+      # REQUIRED: Strong random secret key for JWT/token signing
+      - key: SECRET_KEY
+        sync: false
+      # REQUIRED: Vercel frontend domain(s) for CORS, e.g. https://sentinelvapt.vercel.app
+      - key: ALLOWED_ORIGINS
+        sync: false
+      # Initial Admin credentials (set in Render Dashboard)
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      # Optional LLM integration (OpenAI-compatible)
+      - key: LLM_API_KEY
+        sync: false
+      - key: LLM_BASE_URL
+        value: "https://api.openai.com/v1"
+      - key: LLM_MODEL
+        value: "gpt-4o-mini"
+      # Optional ZAP Daemon integration
+      - key: ZAP_API_URL
+        sync: false
+      - key: ZAP_API_KEY
+        sync: false

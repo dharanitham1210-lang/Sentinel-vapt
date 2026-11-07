@@ -1,0 +1,27 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+backend/vulnpilot.db*
+*.db
+*.db*
+*.sqlite*
+backend/uploads/
+backend/reports/
+backend/artifacts/
+frontend/node_modules/
+frontend/dist/
+# Environment/secret files (keep examples)
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+# Python virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Local tool artifacts
+.playwright-mcp/

@@ -1,0 +1,16 @@
+# Netlify configuration for VulnPilot AI frontend (split deploy).
+# In the Netlify UI, set the site's Base directory to "frontend"
+# (or deploy from this folder). Paths below are relative to that base.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[build.environment]
+  # REQUIRED: set to your deployed Render backend URL, e.g. https://vulnpilot-ai.onrender.com
+  # (no trailing slash). Netlify bakes VITE_* vars at build time; redeploy after changing.
+  VITE_API_URL = "https://vulnpilot-ai.onrender.com"

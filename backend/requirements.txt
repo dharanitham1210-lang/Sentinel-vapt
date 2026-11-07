@@ -1,0 +1,11 @@
+fastapi>=0.120
+uvicorn[standard]>=0.35
+pydantic>=2.12
+pydantic-settings>=2.12
+python-multipart>=0.0.20
+reportlab>=4.2
+httpx>=0.28
+python-dotenv>=1.0
+pytest>=8.3
+# PostgreSQL driver for production (Supabase). Local/default uses SQLite and does not require a live Postgres server.
+psycopg[binary]>=3.1,<4

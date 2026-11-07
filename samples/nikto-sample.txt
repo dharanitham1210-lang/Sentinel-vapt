@@ -1,0 +1,7 @@
+- Nikto v2.5.0
++ Target IP: 127.0.0.1
++ Target Hostname: localhost
++ Target Port: 80
++ Server: Apache/2.4.49 (Unix)
++ /admin/ - user and password.
++ OPTIONS: HTTP method TRACE methodology appears to be supported on this server. Method TRACE may allow XST attacks.
